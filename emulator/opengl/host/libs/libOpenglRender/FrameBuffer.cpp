@@ -101,6 +101,22 @@ void FrameBuffer::finalize(){
     }
 }
 
+
+void FrameBuffer::gem5GetOpenGLContexts(gem5Ctx** list, int* n){
+   (*n) = s_theFrameBuffer->m_contexts.size();
+   (*list) = new gem5Ctx [*n];
+   int i=0;
+   for(RenderContextMap::iterator it = s_theFrameBuffer->m_contexts.begin();
+        it!=s_theFrameBuffer->m_contexts.end(); ++it){
+      RenderContext * ptr = it->second.Ptr();
+      EGLContext eglCtx = ptr->getEGLContext();
+      (*list)[i].m_ctxPtr = s_egl.getNativeCtx(s_theFrameBuffer->getDisplay(), eglCtx); 
+      (*list)[i].m_config = ptr->getConfig();
+      (*list)[i].m_isGL2 = (int)ptr->isGL2();
+      i++;
+   }
+}
+
 bool FrameBuffer::initialize(int width, int height)
 {
     if (s_theFrameBuffer != NULL) {
@@ -496,7 +512,7 @@ HandleType FrameBuffer::createColorBuffer(int p_width, int p_height,
 }
 
 HandleType FrameBuffer::createRenderContext(int p_config, HandleType p_share,
-                                            bool p_isGL2)
+                                            bool p_isGL2, void ** nativeCtx)
 {
     android::Mutex::Autolock mutex(m_lock);
     HandleType ret = 0;
@@ -514,9 +530,20 @@ HandleType FrameBuffer::createRenderContext(int p_config, HandleType p_share,
     if (rctx.Ptr() != NULL) {
         ret = genHandle();
         m_contexts[ret] = rctx;
+        if(nativeCtx != NULL){
+           (*nativeCtx) = s_egl.getNativeCtx(
+                 s_theFrameBuffer->getDisplay(), rctx.Ptr()->getEGLContext());
+        }
     }
     return ret;
 }
+
+void* FrameBuffer::gem5CreateOpenGLContext(int p_config, int p_isGL2){
+   void * nativeCtx;
+   s_theFrameBuffer->createRenderContext(p_config, 0, (bool)p_isGL2, &nativeCtx);
+   return nativeCtx;
+}
+      
 
 HandleType FrameBuffer::createWindowSurface(int p_config, int p_width, int p_height)
 {

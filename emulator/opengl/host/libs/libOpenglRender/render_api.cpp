@@ -386,3 +386,11 @@ setStreamMode(int mode)
     gRendererStreamMode = mode;
     return true;
 }
+
+void gem5GetOpenGLContexts(gem5Ctx** list, int* n){
+   FrameBuffer::gem5GetOpenGLContexts(list, n);
+}
+
+void* gem5CreateOpenGLContext(int p_config, int p_isGL2){
+   FrameBuffer::gem5CreateOpenGLContext(p_config, p_isGL2);
+}

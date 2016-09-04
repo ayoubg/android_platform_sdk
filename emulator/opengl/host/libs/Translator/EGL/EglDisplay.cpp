@@ -15,6 +15,7 @@
 */
 #include "EglDisplay.h"
 #include "EglOsApi.h"
+#include "EglGlobalInfo.h"
 #include <GLcommon/GLutils.h>
 #include <utils/threads.h>
 
@@ -341,4 +342,11 @@ EGLNativeContextType EglDisplay::getGlobalSharedContext(){
 
     return m_globalSharedContext;
 #endif
+}
+
+//------------------
+extern EglGlobalInfo* g_eglInfo;
+void* getNativeCtx(EGLDisplay display, EGLContext ec){
+   EglDisplay* dpy = g_eglInfo->getDisplay(display);
+   return (void*)dpy->getContext(ec).Ptr()->nativeType();
 }

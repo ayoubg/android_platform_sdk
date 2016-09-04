@@ -53,6 +53,8 @@ public:
     static bool removeSubWindow();
     static void finalize();
     static FrameBuffer *getFB() { return s_theFrameBuffer; }
+    static void gem5GetOpenGLContexts(gem5Ctx** list, int* n);
+    static void* gem5CreateOpenGLContext(int p_config, int p_isGL2);
 
     const FrameBufferCaps &getCaps() const { return m_caps; }
 
@@ -67,7 +69,7 @@ public:
         *version = m_glVersion;
     }
 
-    HandleType createRenderContext(int p_config, HandleType p_share, bool p_isGL2 = false);
+    HandleType createRenderContext(int p_config, HandleType p_share, bool p_isGL2 = false, void** nativeCtx = NULL);
     HandleType createWindowSurface(int p_config, int p_width, int p_height);
     HandleType createColorBuffer(int p_width, int p_height, GLenum p_internalFormat);
     void DestroyRenderContext(HandleType p_context);

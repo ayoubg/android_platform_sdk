@@ -322,6 +322,9 @@ typedef void (*__eglMustCastToProperFunctionPointerType)(void);
 EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY
        eglGetProcAddress(const char *procname);
 
+//for gem5, serialization
+EGLAPI void* EGLAPIENTRY getNativeCtx(EGLDisplay dpy, EGLContext ctx);
+
 #ifdef __cplusplus
 }
 #endif

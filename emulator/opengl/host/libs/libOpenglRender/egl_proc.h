@@ -65,4 +65,7 @@ typedef EGLBoolean (EGLAPIENTRY *eglSignalSyncKHR_t) (EGLDisplay, EGLSyncKHR, EG
 typedef EGLBoolean (EGLAPIENTRY *eglGetSyncAttribKHR_t) (EGLDisplay, EGLSyncKHR, EGLint, EGLint*);
 typedef EGLBoolean (EGLAPIENTRY *eglSetSwapRectangleANDROID_t) (EGLDisplay, EGLSurface, EGLint, EGLint, EGLint, EGLint);
 
+//for gem5, serialization
+typedef void* (EGLAPIENTRY *getNativeCtx_t) (EGLDisplay, EGLContext);
+
 #endif // of  _EGL_PROC_H

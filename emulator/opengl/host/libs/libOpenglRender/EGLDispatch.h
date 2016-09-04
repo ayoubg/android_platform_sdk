@@ -63,6 +63,8 @@ struct EGLDispatch {
     eglSignalSyncKHR_t eglSignalSyncKHR;
     eglGetSyncAttribKHR_t eglGetSyncAttribKHR;
     eglSetSwapRectangleANDROID_t eglSetSwapRectangleANDROID;
+    // for gem5, serialization
+    getNativeCtx_t getNativeCtx;
 };
 
 bool init_egl_dispatch();

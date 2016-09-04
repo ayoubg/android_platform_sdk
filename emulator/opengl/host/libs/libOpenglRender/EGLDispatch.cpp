@@ -67,6 +67,7 @@ bool init_egl_dispatch()
     s_egl.eglSwapBuffers = (eglSwapBuffers_t) lib->findSymbol("eglSwapBuffers");
     s_egl.eglCopyBuffers = (eglCopyBuffers_t) lib->findSymbol("eglCopyBuffers");
     s_egl.eglGetProcAddress = (eglGetProcAddress_t) lib->findSymbol("eglGetProcAddress");
+    s_egl.getNativeCtx = (getNativeCtx_t) lib->findSymbol("getNativeCtx");
 
 #define INIT_EGL_EXT_FUNC(name) \
     if (s_egl.eglGetProcAddress) s_egl.name = (name ## _t) s_egl.eglGetProcAddress(#name); \

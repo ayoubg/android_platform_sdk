@@ -153,6 +153,17 @@ DECL(void, repaintOpenGLDisplay, (void));
  */
 DECL(int, stopOpenGLRenderer, (void));
 
+/* gem5 API */
+typedef struct {
+   void*  m_ctxPtr;    
+   int m_config;
+   int m_isGL2;
+} gem5Ctx;
+
+DECL(void, gem5GetOpenGLContexts, (gem5Ctx** list, int* n));
+
+DECL(void*, gem5CreateOpenGLContext, (int p_config, int p_isGL2));
+
 #ifdef __cplusplus
 }
 #endif
